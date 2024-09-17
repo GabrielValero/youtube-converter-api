@@ -4,55 +4,27 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Query,
 } from '@nestjs/common';
 import { GetDownloadTrackDto } from './dto/get-download-url.dto';
+import { TrackService } from './track.service';
 
 @Controller('track')
 export class TrackController {
-  @Get('/')
-  async init(){
-    return "Hello World"
+  trackService: TrackService;
+  constructor(trackService: TrackService) {
+    this.trackService = trackService;
   }
-  @Get('/:id')
-  async getDownloadTrack(@Param('id') id: string) {
+
+  // @Get('/')
+  // async init() {
+  //   return 'Hello World';
+  // }
+  @Get()
+  async getDownloadTrack(@Query('id') id: string) {
     try {
-      const link = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
-
-      let fetchResponse = await fetch(link, {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': process.env.RA_KEY,
-          'X-RapidAPI-Host': process.env.RA_HOST,
-        },
-      });
-
-      if (!fetchResponse.ok) {
-        const errorData = await fetchResponse.json();
-        // Puedes usar HttpException para lanzar errores HTTP con códigos de estado
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: `Error en la solicitud: ${errorData.msg || fetchResponse.status}`,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      const resp = await fetchResponse.json();
-
-      if (resp.status === 'fail') {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: `Error en la API: ${resp.msg}`,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      return {
-        link: resp?.link || null,
-        status: 'success',
-      };
+      const trackUrl = await this.trackService.fetchDownloadUrl(id);
+      return trackUrl;
     } catch (error) {
       // Si el error es una instancia de HttpException, usa su código de estado
       const statusCode =
@@ -62,7 +34,7 @@ export class TrackController {
       throw new HttpException(
         {
           status: statusCode,
-          error: error.message,
+          error: `Error inesperado ${error.message}`,
         },
         statusCode,
       );
