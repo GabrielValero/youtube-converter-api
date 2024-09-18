@@ -1,85 +1,130 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# YouTube Converter API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+YouTube Converter API es una solución para realizar búsquedas de videos en YouTube y generar enlaces para reproducir o descargar audio en formato MP3.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tabla de contenido
 
-## Description
+1. [Descripción del proyecto](#descripción-del-proyecto)
+2. [Características](#características)
+3. [Requisitos](#requisitos)
+4. [Instalación](#instalación)
+5. [Endpoints](#endpoints)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Descripción del proyecto
 
-```bash
-$ npm install
+Este proyecto ofrece una API que permite buscar videos en YouTube y obtener enlaces para reproducir o descargar audio en formato MP3. La API utiliza la **YouTube Data API** para realizar las búsquedas y **RapidAPI** para gestionar la conversión y descarga de los audios.
+
+El objetivo de la API es simplificar el acceso a contenido de YouTube para convertirlo en audio, facilitando la integración en aplicaciones que necesiten esta funcionalidad.
+
+---
+
+## Características
+
+- **Búsqueda de videos en YouTube**: Realiza búsquedas de videos mediante la API de YouTube.
+- **Conversión a MP3**: Genera enlaces de descarga o reproducción en formato MP3.
+- **Fácil integración**: Con un diseño simple y modular, es ideal para cualquier aplicación que requiera conversión de audio.
+
+---
+
+## Requisitos
+
+Antes de comenzar, asegúrate de tener instaladas las siguientes herramientas:
+
+- [Node.js](https://nodejs.org/) (versión 16 o superior)
+- [npm](https://www.npmjs.com/)
+- Claves de las siguientes APIs:
+  - **[YouTube Data API](https://developers.google.com/youtube/v3/getting-started)**
+  - **[YouTube MP3 API](https://rapidapi.com/ytjar/api/youtube-mp36)**
+
+---
+
+## Instalación
+
+Sigue estos pasos para instalar y ejecutar el proyecto:
+
+1. Clona este repositorio:
+    ```bash
+    git clone https://github.com/GabrielValero/youtube-converter-api.git
+    ```
+
+2. Dirígete a la carpeta del proyecto:
+    ```bash
+    cd youtube-converter-api
+    ```
+
+3. Instala las dependencias:
+    ```bash
+    npm install
+    ```
+
+4. Configura las variables de entorno:
+
+    - Renombra el archivo `.env.template` a `.env`.
+    - Completa las claves necesarias en el archivo `.env`:
+
+      ```env
+      YT_API_URL = "https://www.googleapis.com/youtube/v3"
+      YT_API_KEY = TU_CLAVE_DE_YOUTUBE
+      RA_KEY = TU_CLAVE_DE_RAPIDAPI
+      RA_HOST = "youtube-mp36.p.rapidapi.com"
+      ```
+
+5. Ejecuta el proyecto con uno de los siguientes comandos:
+
+    ```bash
+    # Desarrollo
+    npm run start
+
+    # Desarrollo con hot reload
+    npm run start:dev
+
+    # Producción
+    npm run start:prod
+    ```
+
+---
+
+## Endpoints
+
+### Búsqueda de videos
+
+- **Descripción**: Busca videos en YouTube basados en una consulta.
+- **Ruta**: `/search`
+- **Método**: `GET`
+- **Parámetros de consulta**:
+  - `key`: El término de búsqueda (por ejemplo, `coldplay viva la vida`).
+- **Respuesta**: Lista de videos coincidentes con la búsqueda.
+```typescript
+export interface TrackData {
+  title: string;
+  artwork: thumbnailType;
+  videoId: string;
+  artist: string;
+  description: string;
+  publishedAt: Date;
+  channelId: string;
+  duration?: string;
+}
+
+type thumbnailType = {
+  [key: string]: {
+    url: string;
+    width: number;
+    height: number;
+  };
+}
+
 ```
 
-## Compile and run the project
+### Conversión a MP3
 
-```bash
-# development
-$ npm run start
+- **Descripción**: Obtiene un enlace para reproducir o descargar el audio de un video en formato MP3.
+- **Ruta**: `/track`
+- **Método**: `GET`
+- **Parámetros de consulta**:
+  - `id`: El ID del video de YouTube que deseas convertir.
+- **Respuesta**: Enlace (un string) para reproducir o descargar el audio en formato MP3.
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
