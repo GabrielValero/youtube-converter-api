@@ -16,10 +16,6 @@ export class TrackController {
     this.trackService = trackService;
   }
 
-  // @Get('/')
-  // async init() {
-  //   return 'Hello World';
-  // }
   @Get()
   async getDownloadTrack(@Query('id') id: string) {
     try {
