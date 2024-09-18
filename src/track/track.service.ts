@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { FetchDownloadTrackDto } from './dto/fetch-download-url.dto';
 
 @Injectable()
 export class TrackService {
-  async fetchDownloadUrl(id: string) {
+  async fetchDownloadUrl(id: string): Promise<FetchDownloadTrackDto> {
     const link = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
 
     let fetchResponse = await fetch(link, {
