@@ -1,5 +1,5 @@
 
-import specialCharacters from '../config/specialCharacters.js'
+import specialCharacters from '../config/specialCharacters'
 
 export default function replaceSpecialCharacters(str): string{
 
