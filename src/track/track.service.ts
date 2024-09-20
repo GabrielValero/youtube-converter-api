@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SearchListResponse, SearchResult, TrackData } from 'src/types';
-import replaceSpecialCharacters from 'src/utils/replaceSpecialCharacters';
+import replaceSpecialCharacters from '../utils/replaceSpecialCharacters';
 
 @Injectable()
 export class TrackService {
