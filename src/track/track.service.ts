@@ -4,7 +4,6 @@ import replaceSpecialCharacters from '../utils/replaceSpecialCharacters';
 
 @Injectable()
 export class TrackService {
-  
   async fetchTrackList(key: string, limit: number = 20) {
     const url = `${process.env.YT_API_URL}/search?&key=${process.env.YT_API_KEY}&q=${key}&maxResults=${limit}&order=relevance&type=video&part=snippet`;
 
@@ -39,7 +38,7 @@ export class TrackService {
     );
     console.log(result);
 
-    return result;
+    return { trackList: result, status: HttpStatus.OK };
   }
   fetchTrackById(id: string) {}
   fetchLyricTrack(id: string) {}

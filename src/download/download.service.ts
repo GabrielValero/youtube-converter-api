@@ -38,7 +38,7 @@ export class DownloadService {
         }
         return {
           link: resp?.link || null,
-          status: 'success',
+          status: HttpStatus.OK,
         };
       }
 }
