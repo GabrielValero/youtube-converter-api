@@ -15,11 +15,5 @@ describe('TrackService', () => {
   it('should be defined', () => {
     expect(trackService).toBeDefined();
   });
-  it('should return a link', async () => {
-    const resultExpected = 'https://mbeta.123tokyo.xyz';
-
-    const result = await trackService.fetchDownloadUrl('asdf');
-
-    expect(trackService).toBeDefined();
-  });
+  
 });

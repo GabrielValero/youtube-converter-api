@@ -16,11 +16,6 @@ export class TrackController {
     this.trackService = trackService;
   }
 
-  @Get()
-  async getDownloadTrack(@Query('id') id: string) {
-      const trackUrl = await this.trackService.fetchDownloadUrl(id);
-      return trackUrl;
-  }
   @Get('/search')
   async searchTracks(@Query('key') key: string, @Query('limit') limit: number) {
     const trackList = await this.trackService.fetchTrackList(key, limit);
