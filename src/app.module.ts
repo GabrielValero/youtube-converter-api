@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { TrackModule } from './track/track.module';
 import { ConfigModule } from '@nestjs/config';
 import { DownloadModule } from './download/download.module';
+import { YoutubeModule } from './youtube/youtube.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),TrackModule, DownloadModule],
+  imports: [ConfigModule.forRoot(),TrackModule, DownloadModule, YoutubeModule],
   controllers: [AppController],
   providers: [AppService],
 })
