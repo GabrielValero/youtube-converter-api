@@ -8,6 +8,13 @@ export interface TrackData {
   channelId: string;
   duration?: string;
 }
+type thumbnailType = {
+  [key: string]: {
+    url: string;
+    width: number;
+    height: number;
+  };
+}
 interface SearchListResponse {
   kind: string;
   etag: string;
@@ -41,10 +48,3 @@ interface SearchResult {
   };
 }
 
-type thumbnailType = {
-    [key: string]: {
-      url: string;
-      width: number;
-      height: number;
-    };
-  }
