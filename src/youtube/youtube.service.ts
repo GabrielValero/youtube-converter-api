@@ -28,17 +28,18 @@ export class YoutubeService {
     var result: Response[] = trackList.items.filter(video => video.id.kind === "youtube#playlist")
     for(let i = 0; i< contentVideosInfo.length; i++){
       let videoInfo: Item = trackList.items.filter(video => video.id.kind === "youtube#video")[i]
-      console.log(videoInfo)
       let infoTemp: Response = {
         id: videoInfo.id,
         snippet:{
           ... videoInfo.snippet,
-          duration: contentVideosInfo[i].duration,
-          licensedContent: contentVideosInfo[i].licensedContent,
-          viewCount: contentVideosInfo[i].viewCount
+          duration: contentVideosInfo[i].contentDetails.duration,
+          licensedContent: contentVideosInfo[i].contentDetails.licensedContent,
+          viewCount: contentVideosInfo[i].statistics.viewCount
         },
       }
-      result.push(videoInfo)
+      console.log(infoTemp)
+      console.log(contentVideosInfo[i])
+      result.push(infoTemp)
     }
     return result;
   }
